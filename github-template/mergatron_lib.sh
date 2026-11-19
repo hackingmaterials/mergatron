@@ -30,7 +30,6 @@ load_conf() {
   max_prs_per_run=5
   mentions=on
   max_comment_words=120
-  triage_model=""
   # Merging (mergatron_guard.sh).
   merge_kinds=()
   allow_no_ci=no
@@ -50,7 +49,6 @@ load_conf() {
   autofix_max_files=10
   autofix_max_changed_lines=200
   autofix_paths=()
-  autofix_model=""
   # Both.
   test_paths=()
   protected=()
@@ -64,7 +62,6 @@ load_conf() {
       max_prs_per_run) max_prs_per_run="$value" ;;
       mentions) mentions="$value" ;;
       max_comment_words) max_comment_words="$value" ;;
-      triage_model) triage_model="$value" ;;
       merge) merge_kinds+=("$value") ;;
       allow_no_ci) allow_no_ci="$value" ;;
       base_branch) base_branch="$value" ;;
@@ -82,7 +79,6 @@ load_conf() {
       autofix_max_files) autofix_max_files="$value" ;;
       autofix_max_changed_lines) autofix_max_changed_lines="$value" ;;
       autofix_paths) autofix_paths+=("$value") ;;
-      autofix_model) autofix_model="$value" ;;
       test_paths) test_paths+=("$value") ;;
       protected) protected+=("$value") ;;
       *) fail "unknown setting '$key' in $conf" ;;

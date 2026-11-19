@@ -108,7 +108,6 @@ jobs:
           sparse-checkout: .github
           persist-credentials: false
       - name: Set up the gate
-        id: gate
         env:
           KIND: ${{ steps.target.outputs.kind }}
         run: |
@@ -120,7 +119,6 @@ jobs:
           git rev-parse HEAD >"$gate/base.sha"
           source "$gate/mergatron_lib.sh"
           load_conf "$gate/mergatron.conf"
-          echo "model=$autofix_model" >>"$GITHUB_OUTPUT"
           on="$autofix_issues"
           [[ "$KIND" != PR ]] || on="$autofix_prs"
           [[ "$on" == on ]] || fail "mode is $mode and autofix for this $KIND is off, so the bot makes no changes"
@@ -149,7 +147,6 @@ jobs:
           claude_args: >-
             --max-turns 60
             --allowedTools "Read,Grep,Glob,Edit,Write,MultiEdit,Bash(gh issue view:*),Bash(gh pr list:*),Bash(gh pr view:*),Bash(gh pr diff:*),Bash(gh pr checks:*),Bash(gh run view:*),Bash(git diff:*),Bash(git status:*),Bash(git log:*),Bash(git blame:*),Bash(git rm:*),Bash(${{ runner.temp }}/gate/autofix_publish.sh)"
-            ${{ steps.gate.outputs.model && format('--model {0}', steps.gate.outputs.model) || '' }}
 
       # If Claude never got to the gate, say so where it was asked for.
       - name: Report if nothing was published

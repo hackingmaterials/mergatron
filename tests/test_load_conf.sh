@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
-# load_conf defaults for autofix_prs, autofix_issues, and merge_own_fixes,
-# and the model settings.
+# load_conf defaults for autofix_prs, autofix_issues, and merge_own_fixes.
 set -euo pipefail
 root="$(cd "$(dirname "$0")/.." && pwd)"
 tmp=$(mktemp -d)
@@ -30,12 +29,5 @@ check "mode = normal\nmerge_own_fixes = yes" "on on yes"
 check "mode = mayhem\nmerge_own_fixes = no" "on on no"
 # Conservative overrides the file.
 check "mode = conservative\nautofix_prs = on\nautofix_issues = on\nmerge_own_fixes = yes" "off off no"
-
-# The model settings are read as given.
-printf "triage_model = opus\nautofix_model = sonnet\n" >"$tmp/mergatron.conf"
-got=$(source "$root/github-template/mergatron_lib.sh"
-  load_conf "$tmp/mergatron.conf"
-  echo "$triage_model $autofix_model")
-[[ "$got" == "opus sonnet" ]] || { echo "FAIL: model settings: got '$got'"; failed=1; }
 
 exit $failed
