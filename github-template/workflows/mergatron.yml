@@ -73,6 +73,7 @@ jobs:
           [[ "$mentions" =~ ^(on|off)$ ]] || fail "bad mentions '$mentions'"
           [[ "$max_comment_words" =~ ^[1-9][0-9]*$ ]] || fail "bad max_comment_words '$max_comment_words'"
           echo "max_prs=$max_prs_per_run" >>"$GITHUB_OUTPUT"
+          echo "model=$triage_model" >>"$GITHUB_OUTPUT"
           run=true
           trigger="${{ github.event_name }}"
           if [[ "$trigger" == issue_comment ]]; then
@@ -117,6 +118,7 @@ jobs:
         if: steps.settings.outputs.run == 'true'
         with:
           anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+          claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
           additional_permissions: |
             actions: read
           prompt: |
@@ -150,3 +152,4 @@ jobs:
             --max-turns 150
             --allowedTools "Read,Grep,Glob,Bash(gh pr list:*),Bash(gh pr view:*),Bash(gh pr diff:*),Bash(gh pr checks:*),Bash(gh pr edit:*),Bash(gh issue list:*),Bash(gh issue view:*),Bash(.github/mergatron_comment.sh:*),Bash(git log:*),Bash(git blame:*),Bash(.github/mergatron_guard.sh:*)"
             --disallowedTools "Edit,Write,MultiEdit,NotebookEdit"
+            ${{ steps.settings.outputs.model && format('--model {0}', steps.settings.outputs.model) || '' }}
