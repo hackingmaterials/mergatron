@@ -129,7 +129,9 @@ jobs:
                then only what is necessary.
             5. Finish with a short summary table: PR number, title, action taken, reason.
                List any PRs left unprocessed because of the limit.
+          # Keep the allow list strict: the action's default auto mode can approve other tools.
           claude_args: >-
+            --permission-mode default
             --max-turns 150
             --allowedTools "Read,Grep,Glob,Bash(gh pr list:*),Bash(gh pr view:*),Bash(gh pr diff:*),Bash(gh pr checks:*),Bash(gh pr comment:*),Bash(gh pr edit:*),Bash(gh pr review:*),Bash(gh issue list:*),Bash(gh issue view:*),Bash(gh issue comment:*),Bash(git log:*),Bash(git blame:*),Bash(.github/mergatron_guard.sh:*)"
             --disallowedTools "Edit,Write,MultiEdit,NotebookEdit"

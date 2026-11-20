@@ -147,7 +147,9 @@ jobs:
                is necessary. If the script refuses a comment as too long, shorten it and post again.
             5. Finish with a short summary table: PR number, title, action taken, reason.
                List any PRs left unprocessed because of the limit.
+          # Keep the allow list strict: the action's default auto mode can approve other tools.
           claude_args: >-
+            --permission-mode default
             --max-turns 150
             --allowedTools "Read,Grep,Glob,Bash(gh pr list:*),Bash(gh pr view:*),Bash(gh pr diff:*),Bash(gh pr checks:*),Bash(gh pr edit:*),Bash(gh issue list:*),Bash(gh issue view:*),Bash(.github/mergatron_comment.sh:*),Bash(git log:*),Bash(git blame:*),Bash(.github/mergatron_guard.sh:*)"
             --disallowedTools "Edit,Write,MultiEdit,NotebookEdit"

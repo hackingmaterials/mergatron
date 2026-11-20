@@ -143,7 +143,9 @@ jobs:
             4. Write .autofix_summary.md, then run `${{ runner.temp }}/gate/autofix_publish.sh`
                once, with no arguments, even if you changed nothing. It checks your change,
                commits it, and posts the result.
+          # Keep the allow list strict: the action's default auto mode can approve other tools.
           claude_args: >-
+            --permission-mode default
             --max-turns 60
             --allowedTools "Read,Grep,Glob,Edit,Write,MultiEdit,Bash(gh issue view:*),Bash(gh pr list:*),Bash(gh pr view:*),Bash(gh pr diff:*),Bash(gh pr checks:*),Bash(gh run view:*),Bash(git diff:*),Bash(git status:*),Bash(git log:*),Bash(git blame:*),Bash(${{ runner.temp }}/gate/autofix_publish.sh)"
 
