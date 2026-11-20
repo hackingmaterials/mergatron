@@ -422,6 +422,7 @@ mode, which never merges or commits.
 | Bot changes kept to some directories | `autofix_paths` patterns |
 | Some branches never merged by the bot | `block_branch` patterns |
 | Different size limits | `max_changed_lines`, `autofix_max_files`, `autofix_max_changed_lines`, `max_comment_words` |
+| A different Claude model for a bot | Add `--model <id>` (for example `--model opus`) to `claude_args` in that bot's workflow, `workflows/mergatron.yml` or `workflows/autofix.yml`. Unset, the action's default model is used. |
 
 Before the files are copied into the repo, they are under
 `output/REPO/.github/`; edit them there.

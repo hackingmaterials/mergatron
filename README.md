@@ -79,6 +79,13 @@ merge to `main`. Nothing runs until it's there.
 
 If the API key isn't set yet: `gh secret set ANTHROPIC_API_KEY -R OWNER/REPO`
 
+To bill a Claude subscription instead, set `CLAUDE_CODE_OAUTH_TOKEN` to the
+one-year token `claude setup-token` prints. If both secrets are set, the API key
+is used.
+
+To choose a model for either bot, add `--model <id>` to `claude_args` in its
+workflow (see "Refine" in `CUSTOMIZE.md`).
+
 Run `/install-github-app` in Claude Code, from your repo, so the bot posts as
 `claude[bot]`. Skip its own workflows.
 

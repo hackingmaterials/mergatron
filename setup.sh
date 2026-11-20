@@ -354,10 +354,10 @@ section "Anthropic API key"
 new_secret="$url/settings/secrets/actions/new"
 names=""
 if $have_gh && names=$(gh secret list -R "$repo" --json name --jq '.[].name' 2>/dev/null); then
-  if grep -qx ANTHROPIC_API_KEY <<<"$names"; then
-    printf '  %s✓%s ANTHROPIC_API_KEY is already set on %s.\n' "$bold$green" "$reset" "$repo"
+  if grep -qxE "ANTHROPIC_API_KEY|CLAUDE_CODE_OAUTH_TOKEN" <<<"$names"; then
+    printf '  %s✓%s An Anthropic API key or Claude Code OAuth token is set on %s.\n' "$bold$green" "$reset" "$repo"
   else
-    note "$repo has no ANTHROPIC_API_KEY secret (fine if it's an organization secret)."
+    note "$repo has no ANTHROPIC_API_KEY or CLAUDE_CODE_OAUTH_TOKEN secret (fine if it's an organization secret)."
     answer=""
     if [[ -t 0 ]]; then
       read -r -p "    Set it now? gh will ask you to paste the key, and won't show it. [y/N] " answer
@@ -373,11 +373,13 @@ if $have_gh && names=$(gh secret list -R "$repo" --json name --jq '.[].name' 2>/
       echo "    Add it yourself, on this page or with gh in your own terminal:"
       cmd "$new_secret"
       cmd "gh secret set ANTHROPIC_API_KEY -R $repo"
+      echo "    Or, to bill a Claude subscription, set CLAUDE_CODE_OAUTH_TOKEN to what"
+      echo "    \"claude setup-token\" prints."
     fi
   fi
 else
   note "Couldn't check $repo's secrets (gh isn't installed or logged in, or you lack access)."
-  echo "    If ANTHROPIC_API_KEY isn't set yet, add it yourself on this page:"
+  echo "    If neither ANTHROPIC_API_KEY nor CLAUDE_CODE_OAUTH_TOKEN is set yet, add one on this page:"
   cmd "$new_secret"
 fi
 
