@@ -94,10 +94,10 @@ contributors can't add them, and many repos stopped using them.
 
 ### 1. Escalate to a maintainer
 
-Request review from the relevant maintainer above (`gh pr edit --add-reviewer`),
-add the `review requested` label, and leave one comment that @-mentions them,
-in the format under "Writing comments". Put the evidence a maintainer needs
-in bullets (see "Judging evidence").
+Request review from the relevant maintainer above and add the `review requested`
+label with `.github/mergatron_label.sh <PR> escalate <login>`. Leave one
+comment that @-mentions them, in the format under "Writing comments". Put the
+evidence a maintainer needs in bullets (see "Judging evidence").
 
 If the PR also matches rule 3 or 4, include that in the same comment.
 
@@ -217,8 +217,8 @@ If `allow_no_ci = yes` and the repo has no CI at all, skip this rule.
 ### 4. Ask for clarification
 
 Leave one comment asking at most 3 specific questions, the ones that most
-affect whether the PR can merge, and add the `not ready to merge` label, when
-the PR:
+affect whether the PR can merge, and add the `not ready to merge` label
+(`.github/mergatron_label.sh <PR> hold`), when the PR:
 
 - Has no description of what it changes and why, or the description doesn't
   match the diff
@@ -238,7 +238,7 @@ the PR:
   be retargeted
 
 When a later run finds the questions answered, remove the `not ready to merge`
-label and apply the rules again.
+label (`.github/mergatron_label.sh <PR> release`) and apply the rules again.
 
 ### 5. Otherwise
 
